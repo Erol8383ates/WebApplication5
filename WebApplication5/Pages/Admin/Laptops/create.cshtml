@@ -1,0 +1,68 @@
+﻿@page
+@model WebApplication5.Pages.Admin.Laptops.CreateModel
+@{
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Page</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body class="create-page-background">
+    <h2>Add New Computer</h2>
+
+    <form method="post" enctype="multipart/form-data">
+
+        <div class="mb-3">
+            <label class="form-label">Lokaal</label>
+            <input asp-for="Laptop.Lokaal" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Laptopcar</label>
+            <input asp-for="Laptop.Laptopcar" class="form-control" />
+        </div>
+
+
+        <div class="mb-3">
+            <label class="form-label">Naam</label>
+            <input asp-for="Laptop.Naam" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">MerkModel</label>
+            <input asp-for="Laptop.MerkModel" class="form-control" />
+        </div>
+
+
+        <div class="mb-3">
+            <label class="form-label">CPU</label>
+            <input asp-for="Laptop.CPU" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">RAM</label>
+            <input asp-for="Laptop.Ram" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Vlan</label>
+            <input asp-for="Laptop.Vlan" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Ipaddress</label>
+            <input asp-for="Laptop.Ipaddress" class="form-control" />
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label">Opmerkingen</label>
+            <div class="col-sm-8">
+                <!-- Bind Opmerkingen to the model -->
+                <textarea asp-for="Laptop.Opmerkingen" class="form-control"></textarea>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</body>
+</html>

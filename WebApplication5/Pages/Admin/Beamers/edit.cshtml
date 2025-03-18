@@ -1,0 +1,63 @@
+﻿@page
+@model WebApplication5.Pages.Admin.Beamers.EditModel
+@{
+    ViewData["Title"] = "Edit Beamer";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Beamer</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+
+    <h2 class="text-center mb-5">Edit Beamer</h2>
+
+    <!-- Error or success messages -->
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">
+            @Model.ErrorMessage
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+    {
+        <div class="alert alert-success">
+            @Model.SuccessMessage
+        </div>
+    }
+
+    <form method="post">
+        <div class="form-group">
+            <label for="Lokaal">Lokaal</label>
+            <input type="text" id="Lokaal" name="Lokaal" class="form-control" value="@Model.BeamerDto.Lokaal" required />
+        </div>
+
+        <div class="form-group">
+            <label for="MerkModel">Merk/Model</label>
+            <input type="text" id="MerkModel" name="MerkModel" class="form-control" value="@Model.BeamerDto.MerkModel" required />
+        </div>
+
+        <div class="form-group">
+            <label for="Lamp">Lamp</label>
+            <input type="text" id="Lamp" name="Lamp" class="form-control" value="@Model.BeamerDto.Lamp" />
+        </div>
+
+        <div class="form-group">
+            <label for="Aansluting">Aansluting</label>
+            <input type="text" id="Aansluting" name="Aansluting" class="form-control" value="@Model.BeamerDto.Aansluting" />
+        </div>
+
+        <div class="form-group">
+            <label for="Opmerkingen">Opmerkingen</label>
+            <textarea id="Opmerkingen" name="Opmerkingen" class="form-control">@Model.BeamerDto.Opmerkingen</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-success">Save Changes</button>
+        <a href="/Admin/Beamers/Index" class="btn btn-secondary">Cancel</a>
+    </form>
+
+</body>
+</html>

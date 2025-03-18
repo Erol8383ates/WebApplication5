@@ -1,0 +1,50 @@
+﻿@page
+@model WebApplication5.Pages.Admin.NetwerkMaterials.CreateModel
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add New Netwerk Material</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body class="create-page-background">
+    <h2>Add New Netwerk Material</h2>
+
+    <form method="post">
+        <div class="mb-3">
+            <label class="form-label">Lokaal</label>
+            <input asp-for="NetwerkMaterial.Lokaal" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Product</label>
+            <input asp-for="NetwerkMaterial.Product" class="form-control" />
+        </div>
+
+
+        <div class="mb-3">
+            <label class="form-label">Naam</label>
+            <input asp-for="NetwerkMaterial.Naam" class="form-control" />
+        </div>
+
+
+        <div class="mb-3">
+            <label class="form-label">Model</label>
+            <input asp-for="NetwerkMaterial.Model" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Ipaddress</label>
+            <input asp-for="NetwerkMaterial.Ipaddress" class="form-control" />
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label">Opmerkingen</label>
+            <div class="col-sm-8">
+                <!-- Bind Opmerkingen to the model -->
+                <textarea asp-for="NetwerkMaterial.Opmerkingen" class="form-control"></textarea>
+            </div>
+        </div>
+       
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</body>
+</html>

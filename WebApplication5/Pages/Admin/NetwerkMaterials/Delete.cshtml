@@ -1,0 +1,25 @@
+﻿@page
+@model WebApplication5.Pages.Admin.NetwerkMaterials.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete Netwerk Material";
+}
+
+<h2>Are you sure you want to delete this Netwerk Material?</h2>
+
+@if (Model.NetwerkMaterial != null)
+{
+    <div>
+        <p>Lokaal: @Model.NetwerkMaterial.Lokaal</p>
+        <p>Product: @Model.NetwerkMaterial.Product</p>
+        <p>Naam: @Model.NetwerkMaterial.Naam</p>
+        <p>Model: @Model.NetwerkMaterial.Model</p>
+        <p>Ipaddress: @Model.NetwerkMaterial.Ipaddress</p>
+        <p>Created At: @Model.NetwerkMaterial.CreatedAt</p>
+    </div>
+
+    <form method="post">
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a asp-page="/Admin/NetwerkMaterials/Index" class="btn btn-secondary">Cancel</a>
+    </form>
+}

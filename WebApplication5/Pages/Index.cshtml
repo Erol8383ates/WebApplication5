@@ -1,0 +1,42 @@
+﻿@page
+@model WebApplication5.Pages.Admin.Printers.IndexModel
+
+<h2 class="text-center">List of Printers</h2>
+
+<div class="row">
+    <div class="col">
+        <a class='btn btn-primary' href='/Admin/Printers/Create'>New Printer</a>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Naam</th>
+            <th>Lokaal</th>
+            <th>IP Address</th>
+            <th>Model</th>
+            <th>Created At</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var printer in Model.Printers)
+        {
+            <tr>
+                <td>@printer.Id</td>
+                <td>@printer.Naam</td>
+                <td>@printer.Lokaal</td>
+                <td>@printer.Ipaddress</td>
+                <td>@printer.Model</td>
+                <td>@printer.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>
+                    <a asp-page="Edit" asp-route-id="@printer.Id" class="btn btn-warning btn-sm">Edit</a>
+                    <a asp-page="Delete" asp-route-id="@printer.Id" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

@@ -1,0 +1,128 @@
+﻿@page
+@model WebApplication5.Pages.Admin.Laptops.DeleteModel
+@{
+    ViewData["Title"] = "Delete Laptop";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Laptop</title>
+
+    <!-- CSS Styling -->
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* General Styling */
+        html {
+            font-size: 20px;
+        }
+
+        body {
+            background-color: #f4f7f6;
+            margin-bottom: 60px;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Form container styling */
+        .container {
+            max-width: 90%;
+            margin: 0 auto;
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="form-container">
+            <h2>Are you sure you want to delete this Laptop?</h2>
+
+            <!-- Display laptop details -->
+            <div class="form-group">
+                <label for="laptopName">Naam</label>
+                <input type="text" id="laptopName" class="form-control" value="@Model.Laptop.Naam" readonly />
+            </div>
+
+            <div class="form-group">
+                <label for="laptopLocation">Lokaal</label>
+                <input type="text" id="laptopLocation" class="form-control" value="@Model.Laptop.Lokaal" readonly />
+            </div>
+
+          
+
+            <!-- Delete Confirmation buttons -->
+            <form method="post">
+                <button type="submit" class="btn btn-danger">Delete</button>
+                <a href="/Admin/Laptops/Index" class="btn btn-secondary">Cancel</a>
+            </form>
+
+            <!-- Display messages -->
+            @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+            {
+                <div class="alert alert-success mt-3">
+                    @Model.SuccessMessage
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+            {
+                <div class="alert alert-danger mt-3">
+                    @Model.ErrorMessage
+                </div>
+            }
+
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+﻿@page
+@model WebApplication5.Pages.Admin.Printers.CreateModel
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Page</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body class="create-page-background">
+<h2>Add New Printer</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        
+    <div class="mb-3">
+        <label class="form-label">Naam</label>
+        <input asp-for="Printer.Naam" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Lokaal</label>
+        <input asp-for="Printer.Lokaal" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Ipaddress</label>
+        <input asp-for="Printer.Ipaddress" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Model</label>
+        <input asp-for="Printer.Model" class="form-control" />
+    </div>
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label">Opmerkingen</label>
+            <div class="col-sm-8">
+                <!-- Bind Opmerkingen to the model -->
+                <textarea asp-for="Printer.Opmerkingen" class="form-control"></textarea>
+            </div>
+        </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+</body>
+</html>

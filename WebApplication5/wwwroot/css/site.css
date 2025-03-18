@@ -1,0 +1,72 @@
+html {
+  font-size: 20px;
+
+}
+header{
+   max-width:100%;
+    margin-top:20px;
+}
+
+
+@media (min-width: 768px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-color:ThreeDLightShadow;
+   
+    
+    
+}
+.edit-page-background {
+    background-color: burlywood !important;
+}
+create-page-background {
+    background-color: slategrey !important;
+}
+/* Style the logo image */
+.logo img {
+    max-width: 100%; /* Ensure the image is responsive */
+
+  
+}
+
+
+/* Optional: Center the logo in the header */
+
+header {
+    text-align: center;
+    width: 80%; /* Set width to 80% of the screen */
+  /* Set a maximum width to avoid stretching too wide on large screens */
+    margin-left: auto; /* Center the container horizontally */
+    margin-right: auto; /* Center the container horizontally */
+    text-align:center;
+}
+
+/* Apply a max-width and center the content */
+
+.dropdown-menu {
+    background-color: antiquewhite !important;
+}
+footer{
+    background-color:lightsteelblue;
+}
+.container{
+    max-width:90%;
+    margin-left:auto;
+    margin-right:auto;
+    
+
+}

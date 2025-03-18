@@ -1,0 +1,16 @@
+﻿namespace WebApplication5.Models
+{
+    public class ComputerDto
+    {
+        public string? Lokaal { get; set; } = "";
+        public string? Naam { get; set; } = "";
+
+        public string? MerkModel { get; set; } = "";
+        public string? CPU { get; set; } = "";
+
+        public string? Ram { get; set; } = "";
+        public string? Vlan { get; set; }
+        public string? Ipaddress { get; set; }
+        public string? Opmerkingen { get; set; }
+    }
+}

@@ -1,0 +1,63 @@
+﻿@page
+@model WebApplication5.Pages.Admin.NetwerkMaterials.EditModel
+@{
+    ViewData["Title"] = "Edit Netwerk Material";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Page</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body class="edit-page-background">
+    <h2>Edit Netwerk Material</h2>
+
+    @if (!string.IsNullOrEmpty(Model.errorMessage))
+    {
+        <div class="alert alert-danger">
+            @Model.errorMessage
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.successMessage))
+    {
+        <div class="alert alert-success">
+            @Model.successMessage
+        </div>
+    }
+
+    <form method="post">
+        <input type="hidden" asp-for="NetwerkMaterial.Id" />
+        <div class="form-group">
+            <label for="Lokaal">Lokaal</label>
+            <input type="text" class="form-control" asp-for="NetwerkMaterialDto.Lokaal" />
+        </div>
+        <div class="form-group">
+            <label for="Product">Product</label>
+            <input type="text" class="form-control" asp-for="NetwerkMaterialDto.Product" />
+        </div>
+        <div class="form-group">
+            <label for="Naam">Naam</label>
+            <input type="text" class="form-control" asp-for="NetwerkMaterialDto.Naam" />
+        </div>
+        <div class="form-group">
+            <label for="Model">Model</label>
+            <input type="text" class="form-control" asp-for="NetwerkMaterialDto.Model" />
+        </div>
+        <div class="form-group">
+            <label for="Ipaddress">IP Address</label>
+            <input type="text" class="form-control" asp-for="NetwerkMaterialDto.Ipaddress" />
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-4 col-form-label">Opmerkingen</label>
+            <div class="col-sm-8">
+                <textarea class="form-control" asp-for="NetwerkMaterialDto.Opmerkingen"></textarea>
+                <span asp-validation-for="NetwerkMaterialDto.Opmerkingen" class="text-danger"></span>
+            </div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</body>
+</html>

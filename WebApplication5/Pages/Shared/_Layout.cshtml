@@ -1,0 +1,256 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CVOLETHAS</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebApplication5.styles.css" asp-append-version="true" />
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: row;
+            height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #343a40;
+            color: white;
+            padding: 20px;
+            height: 100%;
+            transition: width 0.3s ease-in-out;
+        }
+
+            .sidebar a {
+                color: wheat;
+                text-decoration: none;
+                display: block;
+                padding: 10px 0;
+            }
+
+        .content {
+            flex-grow: 1;
+            padding: 30px;
+            overflow-y: auto;
+            transition: margin-left 0.3s ease-in-out;
+        }
+
+        footer {
+            background-color: #f1f1f1;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .logo {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            height: 40px;
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            padding: 10px;
+            display: none;
+            cursor: pointer;
+        }
+
+            .scroll-to-top:hover {
+                background-color: #0056b3;
+            }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #121212;
+            color: white;
+        }
+
+        .dark-mode .sidebar {
+            background-color: #1f1f1f;
+        }
+
+        .dark-mode footer {
+            background-color: #2a2a2a;
+            color: white;
+        }
+
+        /* Sticky Navbar */
+        .navbar.sticky {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        /* Notification Banner */
+        .notification-banner {
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 9999;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Notification Banner -->
+    <div class="notification-banner" id="notificationBanner">
+        Welcome  Razvan! 
+    </div>
+
+    <!-- Sidebar section -->
+    <div class="sidebar" id="sidebar">
+        <h3>Dashboard</h3>
+        <a href="/Admin/Beamers/Index">Beamers</a>
+        <a href="/Admin/Computers/Index">Computers</a>
+        <a href="/Admin/Laptops/Index">Laptops</a>
+        <a href="/Admin/NetwerkMaterials/Index">NetwerkMaterials</a>
+        <a href="/Admin/Printers/Index">Printers</a>
+    </div>
+
+    <!-- Main content section -->
+    <div class="content">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <!-- Footer section -->
+    <footer>
+        <div>&copy; 2025 - CVOLETHAS Brussel</div>
+    </footer>
+
+    <!-- Scroll to top button -->
+    <button class="scroll-to-top" id="scrollToTopBtn">
+        ↑
+    </button>
+
+    <!-- Dark Mode Toggle -->
+    <button class="btn btn-dark" id="darkModeToggle" style="position: fixed; top: 20px; right: 20px;">Toggle Dark Mode</button>
+
+    <!-- Scripts -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <!-- Custom Modern JavaScript -->
+    <!-- 1. Sidebar Toggle -->
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const toggleSidebar = () => {
+            sidebar.classList.toggle('collapsed');
+            document.querySelector('.content').style.marginLeft = sidebar.classList.contains('collapsed') ? '0' : '250px';
+        }
+
+        // Add event listener for sidebar toggle
+        sidebar.addEventListener('click', toggleSidebar);
+    </script>
+
+    <!-- 2. Dark Mode Toggle -->
+    <script>
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        // Check if dark mode is already set in localStorage
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            body.classList.add('dark-mode');
+        }
+
+        // Toggle dark mode
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            // Save the preference to localStorage
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                localStorage.removeItem('darkMode');
+            }
+        });
+    </script>
+
+    <!-- 3. Sticky Navigation Bar -->
+    <script>
+        const navbar = document.querySelector('.navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('sticky');
+            } else {
+                navbar.classList.remove('sticky');
+            }
+        });
+    </script>
+
+    <!-- 4. Notification Banner (Show on page load) -->
+    <script>
+        window.addEventListener('load', () => {
+            const banner = document.getElementById('notificationBanner');
+            banner.style.display = 'block';
+            setTimeout(() => {
+                banner.style.display = 'none';
+            }, 5000); // Hide banner after 5 seconds
+        });
+    </script>
+
+    <!-- 5. Smooth Scroll for anchor links -->
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+
+    <!-- 6. Lazy Loading of Images -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const images = document.querySelectorAll('img[data-src]');
+            const options = {
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.getAttribute('data-src');
+                        img.removeAttribute('data-src');
+                        observer.unobserve(img);
+                    }
+                });
+            }, options);
+
+            images.forEach(image => {
+                observer.observe(image);
+            });
+        });
+    </script>
+
+</body>
+</html>

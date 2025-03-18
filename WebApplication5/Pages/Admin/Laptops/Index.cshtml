@@ -1,0 +1,106 @@
+﻿@page
+@model WebApplication5.Pages.Admin.Laptops.IndexModel
+@{
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LaptopS</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+
+    <h2 class="text-center mb-5">List Of Laptops</h2>
+
+    <!-- Filter Form -->
+    <form method="get">
+        <div class="form-group">
+            <label for="searchNaam"></label>
+            <input type="text" id="searchNaam" name="searchNaam" value="@Model.SearchNaam" class="form-control" placeholder="Search by Naam" />
+        </div>
+        <div class="form-group">
+            <label for="searchLokaal"></label>
+            <input type="text" id="searchLokaal" name="searchLokaal" value="@Model.SearchLokaal" class="form-control" placeholder="Search by Locaal" />
+        </div>
+        <button type="submit" class="btn btn-primary">OK</button>
+    </form>
+
+    <a asp-page="./Create" class="btn btn-primary mt-3">Add New Laptop</a>
+
+    <table class="excel-table">
+        <tr>
+            <th>ID</th>
+            <th>Lokaal</th>
+            <th>Laptopcar</th>
+            <th>Naam</th>
+            <th>MerkModel</th>
+            <th>CPU</th>
+            <th>Ram</th>
+            <th>Vlan</th>
+            <th>Ipaddress</th>
+            <th>Opmerkingen</th>
+            <th>Created At</th>
+            <th>Actions</th>
+        </tr>
+        @foreach (var pc in Model.Laptops)
+        {
+            <tr>
+                <td>@pc.Id</td>
+                <td>@pc.Lokaal</td>
+                <td>@pc.Laptopcar</td>
+                <td>@pc.Naam</td>
+                <td>@pc.MerkModel</td>
+                <td>@pc.CPU</td>
+                <td>@pc.Ram</td>
+                <td>@pc.Vlan</td>
+                <td>@pc.Ipaddress</td>
+                <td>@pc.Opmerkingen</td>
+                <td>@pc.CreateAt.ToString("MM/dd/yyyy")</td>
+                <td style="white-space:nowrap">
+                    <!-- Edit Button -->
+                    <a class="btn btn-warning btn-sm edit-btn" href="/Admin/Laptops/Edit?id=@pc.Id">Edit</a>
+                    <!-- Delete Button -->
+                    <a class="btn btn-danger btn-sm delete-btn" href="/Admin/Laptops/Delete?id=@pc.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </table>
+</body>
+</html>
+
+<style>
+    .excel-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: 'Arial', sans-serif;
+    }
+
+        .excel-table th, .excel-table td {
+            border: 1px solid #D0D0D0;
+            padding: 18px;
+            text-align: left;
+        }
+
+        .excel-table th {
+            background-color: cadetblue;
+            color: white;
+        }
+
+        .excel-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .excel-table td {
+            font-size: 18px;
+        }
+
+        .excel-table th, .excel-table td {
+            text-align: center;
+        }
+
+        /* Hover effect for rows */
+        .excel-table tr:hover {
+            background-color: honeydew;
+        }
+</style>

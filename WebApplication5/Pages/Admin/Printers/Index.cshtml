@@ -1,0 +1,222 @@
+﻿@page
+@model WebApplication5.Pages.Admin.Printers.IndexModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Printers</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .excel-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Arial', sans-serif;
+        }
+
+            .excel-table th, .excel-table td {
+                border: 1px solid #D0D0D0;
+                padding: 8px;
+                text-align: left;
+            }
+
+            .excel-table th {
+                background-color: cadetblue;
+                color: white;
+                cursor: pointer;
+            }
+
+            .excel-table tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+            .excel-table td {
+                font-size: 14px;
+            }
+
+            .excel-table th, .excel-table td {
+                text-align: center;
+                font-size: 16px;
+            }
+
+            /* Hover effect for rows */
+            .excel-table tr:hover {
+                background-color: #ddd;
+            }
+
+        /* Button Styling */
+        .btn {
+            padding: 8px 15px;
+            margin: 5px;
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+
+        .btn-warning {
+            background-color: #ffc107;
+            color: white;
+            border: none;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+        }
+
+        /* Tooltips */
+        .btn:hover {
+            opacity: 0.8;
+        }
+
+        /* Highlight row on click */
+        .highlight {
+            background-color: #f1c40f;
+        }
+
+        /* Confirm Delete Modal */
+        .confirm-delete {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+        }
+
+            .confirm-delete .modal-content {
+                background-color: white;
+                padding: 20px;
+                border-radius: 5px;
+                text-align: center;
+                max-width: 400px;
+                width: 100%;
+            }
+
+            .confirm-delete button {
+                padding: 10px 20px;
+                font-size: 16px;
+                margin: 5px;
+                cursor: pointer;
+            }
+
+            .confirm-delete .cancel-btn {
+                background-color: #6c757d;
+            }
+
+            .confirm-delete .confirm-btn {
+                background-color: #dc3545;
+            }
+
+    </style>
+</head>
+<body>
+    <h2>Printers</h2>
+    <a asp-page="./Create" class="btn btn-primary" title="Create a new printer">New Printer</a>
+
+    <table class="excel-table">
+        <thead>
+            <tr>
+                <th class="sortable" data-column="Naam">Naam</th>
+                <th class="sortable" data-column="Lokaal">Lokaal</th>
+                <th class="sortable" data-column="Ipaddress">Ipaddress</th>
+                <th class="sortable" data-column="Model">Model</th>
+                <th class="sortable" data-column="Opmerkingen">Opmerkingen</th>
+                <th class="sortable" data-column="CreatedAt">Created At</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var printer in Model.Printers)
+            {
+                <tr data-id="@printer.Id">
+                    <td>@printer.Naam</td>
+                    <td>@printer.Lokaal</td>
+                    <td>@printer.Ipaddress</td>
+                    <td>@printer.Model</td>
+                    <td>@printer.Opmerkingen</td>
+                    <td>@printer.CreatedAt.ToString("MM/dd/yyyy")</td>
+                    <td style="white-space:nowrap">
+                        <!-- Edit Button -->
+                        <a class="btn btn-warning btn-sm edit-btn" href="/Admin/Printers/Edit?id=@printer.Id" title="Edit Printer">Edit</a>
+                        <!-- Delete Button -->
+                        <a class="btn btn-danger btn-sm delete-btn" href="javascript:void(0);" data-id="@printer.Id" title="Delete Printer">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmDelete" class="confirm-delete">
+        <div class="modal-content">
+            <h4>Are you sure you want to delete this printer?</h4>
+            <button class="cancel-btn">Cancel</button>
+            <button class="confirm-btn">Delete</button>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            let deleteId = null;
+
+            // Show confirmation modal on delete button click
+            $(".delete-btn").click(function () {
+                deleteId = $(this).data("id");
+                $("#confirmDelete").fadeIn();
+            });
+
+            // Cancel button click
+            $(".cancel-btn").click(function () {
+                $("#confirmDelete").fadeOut();
+            });
+
+            // Confirm delete button click
+            $(".confirm-btn").click(function () {
+                if (deleteId) {
+                    // Redirect to delete page
+                    window.location.href = '/Admin/Printers/Delete?id=' + deleteId;
+                }
+            });
+
+            // Close modal if clicked outside of it
+            $("#confirmDelete").click(function (e) {
+                if ($(e.target).closest('.modal-content').length === 0) {
+                    $("#confirmDelete").fadeOut();
+                }
+            });
+
+            // Sorting functionality for table columns
+            $(".sortable").click(function () {
+                const column = $(this).data("column");
+                const rows = $("table tbody tr").get();
+                let sortedRows = rows.sort(function (a, b) {
+                    const tdA = $(a).find("td").eq($(`[data-column=${column}]`).index()).text();
+                    const tdB = $(b).find("td").eq($(`[data-column=${column}]`).index()).text();
+                    return tdA.localeCompare(tdB);
+                });
+                $.each(sortedRows, function (index, row) {
+                    $("table tbody").append(row);
+                });
+            });
+
+            // Highlight row on click
+            $("table tbody tr").click(function () {
+                $(this).toggleClass("highlight");
+            });
+        });
+    </script>
+</body>
+</html>

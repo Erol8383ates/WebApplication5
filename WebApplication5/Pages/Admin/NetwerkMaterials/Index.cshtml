@@ -1,0 +1,110 @@
+﻿ @page 
+@model WebApplication5.Pages.Admin.NetwerkMaterials.IndexModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Netwerk Materials</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <h2>Netwerk Materials</h2>
+
+    <form method="get">
+        <div class="form-group">
+            <label for="searchNaam"></label>
+            <input type="text" id="searchNaam" name="searchNaam" value="@Model.SearchNaam" class="form-control" placeholder="Search by Naam" />
+        </div>
+        <div class="form-group">
+            <label for="searchLokaal"></label>
+            <input type="text" id="searchLokaal" name="searchLokaal" value="@Model.SearchLokaal" class="form-control" placeholder="Search by Locaal" />
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <a asp-page="./Create" class="btn btn-primary">Add New Netwerk Material</a>
+    <!-- Table for displaying all Netwerk Materials -->
+
+
+
+
+
+
+    <table class="excel-table">
+        <thead>
+            <tr>
+                <th>Lokaal</th>
+                <th>Product</th>
+                <th>Naam</th>
+                <th>Model</th>
+                <th>IP Address</th>
+                <th>Opmerkingen</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var material in Model.NetwerkMaterials)
+            {
+                <tr>
+                   
+                    <td>@material.Lokaal</td>
+                     <td>@material.Product</td>
+                    <td>@material.Naam</td>
+                    <td>@material.Model</td>
+                    <td>@material.Ipaddress</td>
+                    <td>@material.Opmerkingen</td>
+                    <td style="white-space:nowrap">
+                        <a class="btn btn-warning btn-sm edit-btn" href="/Admin/NetwerkMaterials/Edit?id=@material.Id">Edit</a>
+                        <a class="btn btn-danger btn-sm delete-btn" href="/Admin/NetwerkMaterials/Delete?id=@material.Id">Delete</a>
+                  
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    
+</body>
+</html>
+<!-- Add CSS for Excel-like styling -->
+<style>
+    .excel-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: 'Arial', sans-serif;
+    }
+
+        .excel-table th, .excel-table td {
+            border: 1px solid #D0D0D0;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .excel-table th {
+            background-color: cadetblue;
+            color: white;
+        }
+
+        .excel-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .excel-table td {
+            font-size: 14px;
+        }
+
+        .excel-table th, .excel-table td {
+            text-align: center;
+            font-size: 16px;
+
+        }
+
+        /* Hover effect for rows */
+        .excel-table tr:hover {
+            background-color: #ddd;
+        }
+
+
+</style>
+
+
+

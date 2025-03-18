@@ -1,0 +1,27 @@
+﻿@page
+@model WebApplication5.Pages.Admin.Beamers.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete Beamer";
+}
+
+<h2>Are you sure you want to delete this Beamer?</h2>
+
+@if (Model.Beamer != null)
+{
+    <div>
+      
+        <p>Lokaal: @Model.Beamer.Lokaal</p>
+        <p>Model: @Model.Beamer.MerkModel</p>
+        <p>Lamp: @Model.Beamer.Lamp</p>
+        <p>Aansluting: @Model.Beamer.Aansluting</p>
+        <p>Opmerkingen: @Model.Beamer.Opmerkingen</p>
+     
+    </div>
+
+    <form method="post">
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a asp-page="/Admin/Beamers/Index" class="btn btn-secondary">Cancel</a>
+    </form>
+}
+

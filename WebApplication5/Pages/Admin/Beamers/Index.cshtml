@@ -1,0 +1,103 @@
+﻿@page
+@model WebApplication5.Pages.Admin.Beamers.IndexModel
+@{
+    ViewData["Title"] = "Beamers List";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Beamers</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+
+    <h2 class="text-center mb-5">List of Beamers</h2>
+
+    <!-- Filter Form -->
+    <form method="get">
+        <div class="form-group">
+            <label for="searchLokaal"></label>
+            <input type="text" id="searchLokaal" name="searchLokaal" value="@Model.SearchLokaal" class="form-control" placeholder="Search by Lokaal" />
+        </div>
+        <div class="form-group">
+            <label for="searchMerkModel"></label>
+            <input type="text" id="searchMerkModel" name="searchMerkModel" value="@Model.SearchMerkModel" class="form-control" placeholder="Search by MerkModel" />
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <a asp-page="./Create" class="btn btn-primary mt-3">Add New Beamer</a>
+
+    <table class="excel-table mt-3">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Lokaal</th>
+                <th>Merk/Model</th>
+                <th>Lamp</th>
+                <th>Aansluting</th>
+                <th>Opmerkingen</th>
+                <th>Created At</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var beamer in Model.Beamers)
+            {
+                <tr>
+                    <td>@beamer.Id</td>
+                    <td>@beamer.Lokaal</td>
+                    <td>@beamer.MerkModel</td>
+                    <td>@beamer.Lamp</td>
+                    <td>@beamer.Aansluting</td>
+                    <td>@beamer.Opmerkingen</td>
+                    <td>@beamer.CreateAt.ToString("MM/dd/yyyy")</td>
+                    <td style="white-space:nowrap">
+                        <!-- Edit Button -->
+                        <a class="btn btn-warning btn-sm" href="/Admin/Beamers/Edit?id=@beamer.Id">Edit</a>
+                        <!-- Delete Button -->
+                        <a class="btn btn-danger btn-sm" href="/Admin/Beamers/Delete?id=@beamer.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>
+
+<style>
+    .excel-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: 'Arial', sans-serif;
+    }
+
+        .excel-table th, .excel-table td {
+            border: 1px solid #D0D0D0;
+            padding: 18px;
+            text-align: left;
+        }
+
+        .excel-table th {
+            background-color: cadetblue;
+            color: white;
+        }
+
+        .excel-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .excel-table td {
+            font-size: 18px;
+        }
+
+        .excel-table th, .excel-table td {
+            text-align: center;
+        }
+
+        /* Hover effect for rows */
+        .excel-table tr:hover {
+            background-color: honeydew;
+        }
+</style>
