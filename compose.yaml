@@ -1,0 +1,36 @@
+version: '3.4'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrongPassword123!  # Strong password
+    ports:
+      - "1433:1433"  # Exposing the default SQL Server port
+    networks:
+      - webapp_network
+    volumes:
+      - sql_data:/var/opt/mssql  # Persist SQL Server data
+
+  webapp:
+    build:
+      context: ./WebApplication5
+      dockerfile: Dockerfile
+    image: webapp
+    ports:
+      - "8080:8080"  # Exposing the app's HTTP port
+      - "8081:8081"  # Exposing the app's HTTPS port
+    networks:
+      - webapp_network
+    depends_on:
+      - sqlserver  # Ensure the SQL Server container starts first
+    command: /bin/bash -c "./wait-for-it.sh sqlserver:1433 -- your-command-to-start-app"  # Wait until SQL Server is ready
+
+networks:
+  webapp_network:
+    driver: bridge
+
+volumes:
+  sql_data:

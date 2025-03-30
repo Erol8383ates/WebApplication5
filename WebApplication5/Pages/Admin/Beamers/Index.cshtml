@@ -15,17 +15,23 @@
     <h2 class="text-center mb-5">List of Beamers</h2>
 
     <!-- Filter Form -->
-    <form method="get">
-        <div class="form-group">
-            <label for="searchLokaal"></label>
-            <input type="text" id="searchLokaal" name="searchLokaal" value="@Model.SearchLokaal" class="form-control" placeholder="Search by Lokaal" />
-        </div>
-        <div class="form-group">
-            <label for="searchMerkModel"></label>
-            <input type="text" id="searchMerkModel" name="searchMerkModel" value="@Model.SearchMerkModel" class="form-control" placeholder="Search by MerkModel" />
-        </div>
-        <button type="submit" class="btn btn-primary">Search</button>
-    </form>
+    <!-- Form Container placed under the Toggle Dark Mode button -->
+    <div class="form-container">
+        <form method="get" class="search-form">
+            <div class="form-group">
+                <label for="searchMerkModel">Search by MerkModel:</label>
+                <input type="text" id="searchMerkModel" name="searchMerkModel" value="@Model.SearchMerkModel" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label for="searchLokaal">Search by Lokaal:</label>
+                <input type="text" id="searchLokaal" name="searchLokaal" value="@Model.SearchLokaal" class="form-control" />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+
 
     <a asp-page="./Create" class="btn btn-primary mt-3">Add New Beamer</a>
 
@@ -67,6 +73,58 @@
 </html>
 
 <style>
+    /* Position the form container under Toggle Dark Mode button */
+    .form-container {
+        position: absolute;
+        right: 10px; /* Adjust spacing */
+        top: 60px; /* Adjust height to be under the toggle button */
+        width: auto;
+        background: white;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        display: flex;
+        align-items: center;
+        gap: 15px; /* Space between elements */
+        margin-top: 20px;
+    }
+
+    /* Make labels and inputs inline */
+    .search-form {
+        display: flex;
+        align-items: center;
+        gap: 10px; /* Space between fields */
+    }
+
+    .form-group {
+        display: flex;
+        align-items: center;
+        gap: 5px; /* Space between label and input */
+    }
+
+        /* Adjust label styles */
+        .form-group label {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+    /* Adjust input field styles */
+    .form-control {
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        width: 150px; /* Adjust width */
+    }
+
+    /* Add space between form and table */
+    .form-container {
+        margin-bottom: 20px;
+    }
+
+
+
+
+
     .excel-table {
         width: 100%;
         border-collapse: collapse;

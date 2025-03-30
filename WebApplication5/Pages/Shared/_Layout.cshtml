@@ -1,21 +1,32 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - CVOLETHAS</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/WebApplication5.styles.css" asp-append-version="true" />
+
     <style>
+        /* Set the default body background color (light mode) */
         body {
             margin: 0;
             display: flex;
             flex-direction: row;
             height: 100vh;
             transition: background-color 0.3s, color 0.3s;
+            background-color: #ffffff; /* Light mode background */
+            color: #000000; /* Light mode text color */
         }
+
+            /* Dark mode background color */
+            body.dark-mode {
+                background-color: #1e1e1e; /* Dark mode background */
+                color: #ffffff; /* Dark mode text color */
+            }
 
         .sidebar {
             width: 250px;
@@ -23,6 +34,9 @@
             color: white;
             padding: 20px;
             height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             transition: width 0.3s ease-in-out;
         }
 
@@ -33,11 +47,21 @@
                 padding: 10px 0;
             }
 
+            .sidebar figure {
+                text-align: center;
+                margin-top: auto;
+            }
+
+            .sidebar img {
+                max-width: 80%;
+                height: auto;
+                border-radius: 10px;
+            }
+
         .content {
             flex-grow: 1;
             padding: 30px;
             overflow-y: auto;
-            transition: margin-left 0.3s ease-in-out;
         }
 
         footer {
@@ -50,76 +74,30 @@
             width: 100%;
         }
 
-        .logo {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            height: 40px;
+        .collapsed {
+            width: 60px !important;
+            overflow: hidden;
         }
 
-        .scroll-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            padding: 10px;
-            display: none;
-            cursor: pointer;
-        }
-
-            .scroll-to-top:hover {
-                background-color: #0056b3;
-            }
-
-        /* Dark Mode Styles */
-        body.dark-mode {
-            background-color: #121212;
-            color: white;
-        }
-
-        .dark-mode .sidebar {
-            background-color: #1f1f1f;
-        }
-
-        .dark-mode footer {
-            background-color: #2a2a2a;
-            color: white;
-        }
-
-        /* Sticky Navbar */
-        .navbar.sticky {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-        }
-
-        /* Notification Banner */
         .notification-banner {
-            background-color: #28a745;
+            background: #007bff;
             color: white;
             padding: 10px;
             text-align: center;
+            font-weight: bold;
             position: fixed;
-            top: 0;
             width: 100%;
-            z-index: 9999;
-            display: none;
+            top: 0;
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out;
         }
     </style>
 </head>
-
 <body>
+    <button class="btn btn-secondary" id="sidebarToggle" style="position: fixed; top: 20px; left: 20px;">☰</button>
+    <div class="notification-banner" id="notificationBanner">Welcome, <span id="userName">User</span>! Have a great day! 🌞</div>
 
-    <!-- Notification Banner -->
-    <div class="notification-banner" id="notificationBanner">
-        Welcome  Razvan! 
-    </div>
-
-    <!-- Sidebar section -->
     <div class="sidebar" id="sidebar">
         <h3>Dashboard</h3>
         <a href="/Admin/Beamers/Index">Beamers</a>
@@ -127,130 +105,81 @@
         <a href="/Admin/Laptops/Index">Laptops</a>
         <a href="/Admin/NetwerkMaterials/Index">NetwerkMaterials</a>
         <a href="/Admin/Printers/Index">Printers</a>
+        <figure>
+            <img src="/img/logocvo.png" alt="Logo">
+        </figure>
     </div>
 
-    <!-- Main content section -->
     <div class="content">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <!-- Footer section -->
     <footer>
         <div>&copy; 2025 - CVOLETHAS Brussel</div>
     </footer>
 
-    <!-- Scroll to top button -->
-    <button class="scroll-to-top" id="scrollToTopBtn">
-        ↑
-    </button>
+    <button id="randomBgBtn" style="position: fixed; bottom: 30px; right: 90px; background-color: #28a745; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer;">Random Background</button>
 
-    <!-- Dark Mode Toggle -->
-    <button class="btn btn-dark" id="darkModeToggle" style="position: fixed; top: 20px; right: 20px;">Toggle Dark Mode</button>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const body = document.body;
+            const sidebar = document.getElementById("sidebar");
+            const sidebarToggle = document.getElementById("sidebarToggle");
+            const notificationBanner = document.getElementById("notificationBanner");
+            const userName = document.getElementById("userName");
+            const randomBgBtn = document.getElementById("randomBgBtn");
 
-    <!-- Scripts -->
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+            // Check if the username is stored in session
+            if (!sessionStorage.getItem("userName")) {
+                // If not, ask for the username
+                let name = prompt("Enter your name:");
+                if (name) {
+                    // Save the name to sessionStorage so it won't ask again
+                    sessionStorage.setItem("userName", name);
+                    userName.textContent = name;
+                }
+            } else {
+                // If username is in sessionStorage, use it
+                userName.textContent = sessionStorage.getItem("userName");
+            }
+
+            // Sidebar toggle functionality
+            if (sessionStorage.getItem("sidebar") === "collapsed") {
+                sidebar.classList.add("collapsed");
+            }
+            sidebarToggle.addEventListener("click", function () {
+                sidebar.classList.toggle("collapsed");
+                sessionStorage.setItem("sidebar", sidebar.classList.contains("collapsed") ? "collapsed" : "expanded");
+            });
+
+            // Check and apply dark mode from sessionStorage
+            if (sessionStorage.getItem("darkMode") === "enabled" || window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                body.classList.add("dark-mode");
+            }
+
+            // Hide notification banner after 4 seconds
+            setTimeout(() => {
+                notificationBanner.style.opacity = "0";
+                setTimeout(() => { notificationBanner.style.display = "none"; }, 500);
+            }, 4000);
+
+            // Change background color randomly
+            randomBgBtn.addEventListener("click", function () {
+                const colors =  ["#A8E6CF", "#DCEDC1", "#FFD3B6", "#FFAAA5", "#FF8C94", "#D4A5A5", "#A2D5F2", "#B1EDE8", "#FFC3A0", "#FF677D"];
+                document.body.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            });
+
+            // Keyboard shortcuts for S (sidebar toggle)
+            document.addEventListener("keydown", function (event) {
+                if (event.key === "S" || event.key === "s") {
+                    sidebarToggle.click();
+                }
+            });
+        });
+    </script>
 
     @await RenderSectionAsync("Scripts", required: false)
-
-    <!-- Custom Modern JavaScript -->
-    <!-- 1. Sidebar Toggle -->
-    <script>
-        const sidebar = document.getElementById('sidebar');
-        const toggleSidebar = () => {
-            sidebar.classList.toggle('collapsed');
-            document.querySelector('.content').style.marginLeft = sidebar.classList.contains('collapsed') ? '0' : '250px';
-        }
-
-        // Add event listener for sidebar toggle
-        sidebar.addEventListener('click', toggleSidebar);
-    </script>
-
-    <!-- 2. Dark Mode Toggle -->
-    <script>
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const body = document.body;
-
-        // Check if dark mode is already set in localStorage
-        if (localStorage.getItem('darkMode') === 'enabled') {
-            body.classList.add('dark-mode');
-        }
-
-        // Toggle dark mode
-        darkModeToggle.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-            // Save the preference to localStorage
-            if (body.classList.contains('dark-mode')) {
-                localStorage.setItem('darkMode', 'enabled');
-            } else {
-                localStorage.removeItem('darkMode');
-            }
-        });
-    </script>
-
-    <!-- 3. Sticky Navigation Bar -->
-    <script>
-        const navbar = document.querySelector('.navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('sticky');
-            } else {
-                navbar.classList.remove('sticky');
-            }
-        });
-    </script>
-
-    <!-- 4. Notification Banner (Show on page load) -->
-    <script>
-        window.addEventListener('load', () => {
-            const banner = document.getElementById('notificationBanner');
-            banner.style.display = 'block';
-            setTimeout(() => {
-                banner.style.display = 'none';
-            }, 5000); // Hide banner after 5 seconds
-        });
-    </script>
-
-    <!-- 5. Smooth Scroll for anchor links -->
-    <script>
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-    </script>
-
-    <!-- 6. Lazy Loading of Images -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const images = document.querySelectorAll('img[data-src]');
-            const options = {
-                rootMargin: '0px',
-                threshold: 0.1
-            };
-
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        img.src = img.getAttribute('data-src');
-                        img.removeAttribute('data-src');
-                        observer.unobserve(img);
-                    }
-                });
-            }, options);
-
-            images.forEach(image => {
-                observer.observe(image);
-            });
-        });
-    </script>
-
 </body>
 </html>
